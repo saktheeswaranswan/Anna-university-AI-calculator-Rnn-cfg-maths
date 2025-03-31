@@ -1,0 +1,72 @@
+# [net] Section: Global Training and Data Parameters
+# ---------------------------------------------------
+# batch=1              - Number of samples processed in one batch.
+# subdivisions=1       - Number of mini-batches per batch (mini_batch = batch/subdivisions).
+# inputs=256           - Dimensionality for non-image data (e.g., letters, prices).
+# momentum=0.9         - Momentum for the optimizer (controls contribution of past gradients).
+# decay=0.001          - Weight decay for regularization.
+# max_batches=2000     - Maximum number of training iterations.
+# time_steps=1         - For sequential data, number of time steps to process per iteration.
+# learning_rate=0.1    - Initial learning rate.
+# policy=steps         - Learning rate scheduling policy.
+# steps=1000,1500      - Iterations at which to change the learning rate.
+# scales=.1,.1         - Multiplicative factors for learning rate at each step.
+[net]
+subdivisions=1
+inputs=256
+batch=1
+momentum=0.9
+decay=0.001
+max_batches=2000
+time_steps=1
+learning_rate=0.1
+policy=steps
+steps=1000,1500
+scales=.1,.1
+
+# Three RNN layers with batch normalization and leaky activation
+[rnn]
+batch_normalize=1
+output=1024
+hidden=1024
+activation=leaky
+
+[rnn]
+batch_normalize=1
+output=1024
+hidden=1024
+activation=leaky
+
+[rnn]
+batch_normalize=1
+output=1024
+hidden=1024
+activation=leaky
+
+# A connected (fully connected) layer to reduce dimensionality,
+# using leaky activation.
+[connected]
+output=256
+activation=leaky
+
+# Softmax layer to convert outputs into probability distributions.
+[softmax]
+
+# [cost] Section: Custom Arithmetic Loss Function
+# -------------------------------------------------
+# This custom cost layer (type "arith") is designed to compute losses based on 
+# arithmetic operations on big numbers. It supports:
+#   - addition
+#   - subtraction
+#   - multiplication
+#   - division
+# with high precision.
+#
+# precision=19      - Number of decimal places for float arithmetic.
+# big_number=1      - Enables support for operations on very large numbers (e.g., 200-digit numbers).
+# operations=...    - Comma-separated list of arithmetic operations to include in the loss.
+[cost]
+type=arith
+operations=addition,subtraction,multiplication,division
+precision=19
+big_number=1
